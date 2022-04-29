@@ -1,10 +1,8 @@
-
-
 #ifndef RANDOMNUMBER_HPP
 #define RANDOMNUMBER_HPP
 
 #include <random>
-#include <cmath>
+
 
 
 inline float randomFloat()

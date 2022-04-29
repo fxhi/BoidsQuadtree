@@ -1,6 +1,10 @@
 #ifndef WINDOWGL_HPP
 #define WINDOWGL_HPP
 
+#include <string>
+#include <cassert>
+#include <iostream>
+
 #include <GLFW/glfw3.h>
 
 

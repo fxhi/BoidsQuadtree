@@ -1,6 +1,8 @@
 #ifndef SCENEGL_HPP
 #define SCENEGL_HPP
 
+#include <iostream>
+
 #include "LayerGL.hpp"
 #include "Time.hpp"
 
