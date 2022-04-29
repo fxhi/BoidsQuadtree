@@ -1,0 +1,19 @@
+{
+    "env": {
+        // "myDefaultIncludePath": [
+        //     "${workspaceFolder}",
+        //     "${workspaceFolder}/include"
+        // ],
+        // "myCompilerPath": "/usr/local/bin/gcc-7"
+    },
+    "configurations": [
+        {
+            "defines": [
+                "GLEW_STATIC"
+            ],
+            "includePath": [
+            ]
+        }
+    ],
+    "version": 4
+}

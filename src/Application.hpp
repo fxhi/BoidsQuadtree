@@ -1,0 +1,22 @@
+#ifndef APPLICATION_HPP
+#define APPLICATION_HPP
+
+#include "OpenGL-Core/ApplicationGL.hpp"
+#include "Scene.hpp"
+
+class Application : public ApplicationGL
+{
+public:
+    Application() {
+        init();
+        // Not working
+        // Scene * scene;
+        // setScene(scene);
+
+        // Working  
+        setScene(new Scene);
+    }
+
+};
+
+#endif

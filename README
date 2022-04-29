@@ -1,0 +1,14 @@
+### TODO
+Maintaining Aspect Ratio and Scale Independent of Window Size : maintaining-aspect-ratio-and-scale-independent-of-window-size-with-freeglut
+
+
+### References
+
+OpenGL part thank to : learnopengl.com
+
+https://stackoverflow.com/questions/22735111/
+
+### Usefull resources if octree
+https://stackoverflow.com/questions/32412107/quadtree-find-neighbor
+https://www.reddit.com/r/VoxelGameDev/comments/ontjdf/how_is_sdf_stored_in_a_octree/
+
