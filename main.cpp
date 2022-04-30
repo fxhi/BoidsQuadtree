@@ -13,8 +13,7 @@ const unsigned int SCR_HEIGHT = 800;
 int main()
 {
     Application app;
-    app.update();
-    // app.update();
+    app.run();
 
     return 0;
 }

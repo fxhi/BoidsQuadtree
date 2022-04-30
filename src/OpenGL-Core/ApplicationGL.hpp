@@ -12,14 +12,16 @@
 
 class ApplicationGL {
 public:
-    ApplicationGL() = default;
+    ApplicationGL() {
+        init(); // Can't do this in "run" function, otherwise get a segmentation fault.
+    }
     ApplicationGL(int width, int height, std::string name) : m_window(width, height, name) {
-            assert(width > 0 && height > 0 && "ERROR::WINDOW:: width and height of the window need to be > 0.");
+        assert(width > 0 && height > 0 && "ERROR::WINDOW:: width and height of the window need to be > 0.");
+        ApplicationGL();
     };
 
 
     void run() {
-        init();
         update();
         terminate();
     }
@@ -48,16 +50,9 @@ public:
     // }
     void setScene(SceneGL* scene) {
         m_scene = scene;
-        // m_scene[0] = scene;
-        // m_scene.push_back(scene);
     }
 
-    // This does not work
-    // void setScene(SceneGL* scene) {
-    //     m_scene = scene;
-    // }
-
-// private:
+private:
     void init() {
         m_window.init();
     }
@@ -69,9 +64,6 @@ public:
 private:
     WindowGL m_window;
     SceneGL* m_scene = nullptr;
-    // SceneGL* m_scene;
-    // SceneGL* m_scene[1];
-    // std::vector<SceneGL*> m_scene;
     Time time;
 };
 

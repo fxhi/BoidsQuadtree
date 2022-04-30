@@ -8,12 +8,6 @@ class Application : public ApplicationGL
 {
 public:
     Application() {
-        init();
-        // Not working
-        // Scene * scene;
-        // setScene(scene);
-
-        // Working  
         setScene(new Scene);
     }
 

@@ -42,6 +42,14 @@ public:
         m_color = color;
     }
 
+    void setColorRGB255(int r, int g, int b) {
+        m_color = glm::vec4(static_cast<float>(r/255.0f), static_cast<float>(g/255.0f), static_cast<float>(b/255.0f), 1.0f);
+    }
+
+    void setTransparency(float alpha) {
+        m_color = glm::vec4(m_color.r, m_color.g, m_color.b, alpha);
+    }
+
 private:
     glm::vec4 m_color;
 
