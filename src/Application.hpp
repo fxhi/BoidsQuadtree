@@ -10,7 +10,6 @@ public:
     Application() {
         setScene(new Scene);
     }
-
 };
 
 #endif

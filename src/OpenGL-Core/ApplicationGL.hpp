@@ -20,7 +20,6 @@ public:
         ApplicationGL();
     };
 
-
     void run() {
         update();
         terminate();
@@ -31,9 +30,7 @@ public:
         {
             m_window.processInput();
 
-            // m_scene.update(time);
             m_scene->update(time);
-            // m_scene[0]->update(time);
 
             m_window.update();
 
@@ -45,9 +42,6 @@ public:
         return m_window;
     }
 
-    // void setScene(SceneGL scene) {
-    //     m_scene = scene;
-    // }
     void setScene(SceneGL* scene) {
         m_scene = scene;
     }

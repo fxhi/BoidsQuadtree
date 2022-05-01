@@ -27,7 +27,16 @@ public:
         assert(width >= 0 && height >= 0 && "ERROR: width and height need to bed = 0.");
     }
 
-    constexpr void resizeWithCorners(float left, float top, float right, float bottom) noexcept {
+    constexpr void resizeWithCorners(float left, float bottom, float right, float top) noexcept {
+        m_left = left;
+        m_right = right;
+        m_top = top;
+        m_bottom = bottom;
+
+        assert(left < right && bottom < top && "ERROR: need left <= right and bottom <= top.");
+    }
+
+    constexpr void resizeLeftRightBottomTop(float left, float right, float bottom, float top) noexcept {
         m_left = left;
         m_right = right;
         m_top = top;

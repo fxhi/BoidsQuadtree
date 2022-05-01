@@ -14,10 +14,11 @@ class Scene : public SceneGL {
 public:
     Scene() 
         : m_camera(new Camera),
-          m_boundary(new Rectangle(0.0f, 0.0f, 2.0f, 2.0f)),  // rectangle centered in (0,0), with a width and height of 2.
+          m_boundary(new Rectangle()),  // rectangle centered in (0,0), with a width and height of 2.
           m_particles(40)
     {
         m_background.setColorRGB255(50, 54, 57);
+        m_boundary->resizeLeftRightBottomTop(-2.0f, 2.0f, -2.0f, 2.0f);
         m_camera->setViewMatrix(getOrthographicProjectionMatrix(
             m_boundary->getLeft(), m_boundary->getRight(),
             m_boundary->getBottom(), m_boundary->getTop()));
