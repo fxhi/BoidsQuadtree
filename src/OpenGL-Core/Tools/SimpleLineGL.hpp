@@ -5,6 +5,12 @@
 
 #include <glad/glad.h>
 
+#include <cmath>
+
+// Possible way of improving it : https://vicrucann.github.io/tutorials/osg-shader-3dlines/
+// https://stackoverflow.com/questions/60440682/drawing-a-line-in-modern-opengl
+
+
 
 class SimpleLineGL {
 
@@ -38,25 +44,28 @@ private:
 private:
     void createVAO() {
 
-        float circleVertices[4*3];
-        if (m_p1.y != m_p2.y) {
-            float tmp[4*3] = {
-                m_p1.x-m_width/2.0f, m_p1.y, 0.0f,
-                m_p2.x-m_width/2.0f, m_p2.y, 0.0f,
-                m_p2.x+m_width/2.0f, m_p2.y, 0.0f,
-                m_p1.x+m_width/2.0f, m_p1.y, 0.0f
-            };
-            std::copy(std::begin(tmp), std::end(tmp), std::begin(circleVertices));
+        glm::vec2 p1p2;
+        if (m_p1.y <= m_p2.y) {
+            p1p2 = glm::vec2(m_p2.x - m_p1.x, m_p2.y - m_p1.y);
         } else {
-            float tmp[4*3] = {
-                m_p1.x, m_p1.y-m_width/2.0f, 0.0f,
-                m_p2.x, m_p2.y-m_width/2.0f, 0.0f,
-                m_p2.x, m_p2.y+m_width/2.0f, 0.0f,
-                m_p1.x, m_p1.y+m_width/2.0f, 0.0f
-            };
-            std::copy(std::begin(tmp), std::end(tmp), std::begin(circleVertices));
-            // circleVertices = tmp;
+            p1p2 = glm::vec2(m_p1.x - m_p2.x, m_p1.y - m_p2.y);
         }
+        
+        glm::vec2 norm_p1p2(p1p2/glm::distance(m_p2, m_p1));
+
+        // float theta = std::acos(glm::dot(norm_p1p2, glm::vec2(1.0f,0.0f)));
+        float cos_theta = glm::dot(norm_p1p2, glm::vec2(1.0f,0.0f));
+        float sin_theta = glm::dot(norm_p1p2, glm::vec2(0.0f,1.0f));
+
+        float half_width = m_width/2.0f;
+
+        float circleVertices[4*3] = {
+            m_p1.x-sin_theta*half_width, m_p1.y+cos_theta*half_width, 0.0f,
+            m_p2.x-sin_theta*half_width, m_p2.y+cos_theta*half_width, 0.0f,
+            m_p2.x+sin_theta*half_width, m_p2.y-cos_theta*half_width, 0.0f,
+            m_p1.x+sin_theta*half_width, m_p1.y-cos_theta*half_width, 0.0f
+        };
+        // }
         // if glEnable(GL_CULL_FACE); 
         unsigned int circleIndices[4*3] = {
                 0, 2, 1,
