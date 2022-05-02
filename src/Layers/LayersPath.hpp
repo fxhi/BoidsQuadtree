@@ -1,8 +1,11 @@
 #ifndef LAYERSPATH_HPP
 #define LAYERSPATH_HPP
 
-#include "ParticleSystem/ParticlesSystemPath.hpp"
+#include "Boids/BoidsPath.hpp"
 #include "Background.hpp"
 #include "Camera.hpp"
+
+
+#include "ParticleSystem/Particle.hpp"
 
 #endif

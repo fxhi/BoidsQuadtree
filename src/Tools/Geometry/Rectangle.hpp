@@ -4,21 +4,21 @@
 #include <cassert>
 #include <glm/glm.hpp>
 
-
+template<typename T=float>
 class Rectangle {
 public:
-    float m_left;
-    float m_right;
-    float m_top; 
-    float m_bottom;    
+    T m_left;
+    T m_right;
+    T m_top; 
+    T m_bottom;    
 
-    constexpr Rectangle(float cx=0, float cy=0, float width=0, float height=0) noexcept :
+    constexpr Rectangle(T cx=0, T cy=0, T width=0, T height=0) noexcept :
         m_left(cx-width/2), m_right(cx+width/2), m_top(cy+height/2), m_bottom(cy-height/2) {
 
         assert(width >= 0 && height >= 0 && "ERROR: width and height need to be >= 0.");
     }
 
-    constexpr void resize(float cx, float cy, float width, float height) noexcept {
+    constexpr void resize(T cx, T cy, T width, T height) noexcept {
         m_left = cx-width/2;
         m_right = cx+width/2;
         m_top = cy+height/2;
@@ -27,7 +27,7 @@ public:
         assert(width >= 0 && height >= 0 && "ERROR: width and height need to bed = 0.");
     }
 
-    constexpr void resizeWithCorners(float left, float bottom, float right, float top) noexcept {
+    constexpr void resizeWithCorners(T left, T bottom, T right, T top) noexcept {
         m_left = left;
         m_right = right;
         m_top = top;
@@ -36,7 +36,7 @@ public:
         assert(left < right && bottom < top && "ERROR: need left <= right and bottom <= top.");
     }
 
-    constexpr void resizeLeftRightBottomTop(float left, float right, float bottom, float top) noexcept {
+    constexpr void resizeLeftRightBottomTop(T left, T right, T bottom, T top) noexcept {
         m_left = left;
         m_right = right;
         m_top = top;
@@ -46,27 +46,27 @@ public:
     }
 
 
-    constexpr float getLeft() const noexcept {
+    constexpr T getLeft() const noexcept {
         return m_left;
     }
 
-    constexpr float getRight() const noexcept {
+    constexpr T getRight() const noexcept {
         return m_right;
     }
 
-    constexpr float getTop() const noexcept {
+    constexpr T getTop() const noexcept {
         return m_top;
     }
  
-    constexpr float getBottom() const noexcept {
+    constexpr T getBottom() const noexcept {
         return m_bottom;
     }
 
-    constexpr float getWidth() const noexcept {
+    constexpr T getWidth() const noexcept {
         return m_right-m_left;
     }
 
-    constexpr float getHeight() const noexcept {
+    constexpr T getHeight() const noexcept {
         return m_top-m_bottom;
     }
 
@@ -90,7 +90,7 @@ public:
                 m_bottom <= vec.y && vec.y < m_top;
     }
 
-    constexpr bool contains( float x, float y) const noexcept {
+    constexpr bool contains( T x, T y) const noexcept {
         return  m_left <= x && x < m_right &&
                 m_bottom <= y && y < m_top;
     }

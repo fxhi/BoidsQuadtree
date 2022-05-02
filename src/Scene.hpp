@@ -10,37 +10,65 @@
 
 #include "Tools/Geometry/Rectangle.hpp"
 
+#include "OpenGL-Core/Tools/CircleGL.hpp"
+#include "OpenGL-Core/Tools/SimpleLineGL.hpp"
+
 class Scene : public SceneGL {
 public:
     Scene() 
         : m_camera(new Camera),
-          m_boundary(new Rectangle()),  // rectangle centered in (0,0), with a width and height of 2.
-          m_particles(40)
+          m_boundary(new Rectangle<>()),  // rectangle centered in (0,0), with a width and height of 2.
+          m_flock(40),
+          m_particles(1000)
     {
         m_background.setColorRGB255(50, 54, 57);
+
         m_boundary->resizeLeftRightBottomTop(-2.0f, 2.0f, -2.0f, 2.0f);
+
         m_camera->setViewMatrix(getOrthographicProjectionMatrix(
             m_boundary->getLeft(), m_boundary->getRight(),
             m_boundary->getBottom(), m_boundary->getTop()));
+
+        m_flock.setBoundary(m_boundary);
+        m_flock.setCamera(m_camera);
+
         m_particles.setBoundary(m_boundary);
+        m_particles.initQuadtree();
+        m_particles.fillQuadtree();
         m_particles.setCamera(m_camera);
-        
+
+        //Finalized initialization
+        m_flock.checkInitialization();
+
     }
 
     void update(const Time& m_time) override {
         m_background.render();
+        m_flock.update(m_time);
+        // m_flock.render();
+
+        glUseProgram(0);
+        // SimpleLineGL line(-0.7, -0.6, 0.4, -0.6, 0.01);
+        SimpleLineGL line(0.4, -0.6, -0.7, -0.6, 0.01);
+        glBindVertexArray(line.VAO);
+        line.draw();
+
         m_particles.update(m_time);
         m_particles.render();
+
     }
 
 
 private:
     BackgroundLayer m_background;
-    ParticleLayer m_particles;
+    Flock m_flock;
+
     Time m_time;
 
     Camera* m_camera;
-    Rectangle* m_boundary;
+    Rectangle<>* m_boundary;
+
+    ParticleLayer m_particles;
 
 };
 
