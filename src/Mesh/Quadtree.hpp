@@ -20,6 +20,12 @@ maximum m_point is reached in a node ?
 
 template<typename T=float, typename T_rect=float>
 class Quadtree {
+// Need forward declaration of Data for function returning thing depending of Data type (e.g. std::vector<Data>, query function), need to clean this.
+struct Data {
+    T data;
+    T_rect x;
+    T_rect y;
+};
 public:
     Quadtree() = default;
     Quadtree(Rectangle<T_rect> boundary, int max_points=4, int depth=0) :
@@ -72,7 +78,7 @@ public:
         m_total_points += 1;
 
         if (!m_divided) {
-            if(m_point.size() < m_max_points) {
+            if(m_point.size() < m_max_points || m_maxDepthPossible == m_depth) {
                 m_point.push_back(data);
                 return;
             }
@@ -184,10 +190,10 @@ public:
         return maxDepth;
     }
 
-    std::vector<T> query(Rectangle<T_rect> in_boundary) {
+    std::vector<Data> query(Rectangle<T_rect> in_boundary) {
         // Find the points in the quadtree that lie within boundary.
 
-        std::vector<T> out_points;
+        std::vector<Data> out_points;
 
         if (!m_boundary.intersects(in_boundary)){
             // The query boundary does not intersect the node boundary.
@@ -196,7 +202,7 @@ public:
 
         if (m_divided) {
             // If already divided, search only inside the children.
-            std::vector<T> buffer;
+            std::vector<Data> buffer;
 
             buffer = children[0]->query(in_boundary);
             out_points.insert(out_points.end(), buffer.begin(), buffer.end());
@@ -224,10 +230,11 @@ public:
     std::vector<T> queryRadius(float cx, float cy, float radius) {
         // First get all the points that lie inside the rectangle wich bounds the associated circle.
         // Then get all the points inside the requested circle, boundary included.
-        std::vector<T> out_points;
-        std::vector<T> buffer;
+        std::vector<Data> out_points;
+        std::vector<Data> buffer;
 
-        buffer = query(Rectangle<T_rect>(cx, cy, radius*2+1, radius*2+1));
+        buffer = query(Rectangle<T_rect>(cx, cy, radius*2, radius*2));
+        // std::cout << "buffer size" << buffer.size() << std::endl;
         //width and height of boundary are +1 to ensure getting all the points, since for the Rectangle class
         //the "contains" function is lower equal to for left/bottom and strictly lower for rith/top.
 
@@ -239,7 +246,12 @@ public:
             }
         }
 
-        return buffer;
+        std::vector<T> out_data;
+        for(auto const & p : out_points ) {
+            out_data.push_back(p.data);
+        }
+
+        return out_data;
     }
 
     // Need to update this function with the new format where a Data structure is used.
@@ -269,7 +281,7 @@ public:
         if (m_divided){
             for(int i=0; i<4; i++) {
                 // delete children[i]; //freed memory and call detructor of each children
-                // children[i] = NULL; //pointed dangling ptr to NULL
+                // children[i] = nullptr; //pointed dangling ptr to NULL
                 children[i].reset();
             }
         }
@@ -280,11 +292,7 @@ public:
 
 
 public:
-    struct Data {
-        T data;
-        T_rect x;
-        T_rect y;
-    };
+
     std::vector<Data> m_point;
     Rectangle<T_rect> m_boundary;
     int m_max_points = 4; // Maximal number of points that a node can have.
@@ -295,6 +303,8 @@ public:
     std::unique_ptr<Quadtree<T>> children[4];
 
     int m_total_points = 0; // Total number of m_point inside a node, childrens included.
+
+    int m_maxDepthPossible = 100;
 
 };
 

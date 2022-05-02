@@ -54,8 +54,6 @@ public:
             float vz = 0.0f;
             vec_particles.push_back(Particle(x,y,z, vx,vy,vz, 0.05));
         }
-
-
     }
 
     void initQuadtree() {
@@ -70,7 +68,6 @@ public:
             m_quadtree.insert(&p, p.position.x, p.position.y);
         }
     }
-
 
     ~ParticleLayer() {
         glDeleteProgram(m_shader.ID);
@@ -111,7 +108,7 @@ public:
         std::vector<Line<float>> linesToDraw = m_quadtree.getLineToDrawShape();
         // std::cout << "Line to draw size : " << linesToDraw.size() << std::endl;
         // std::cout << " Total number of point : " << m_quadtree.m_total_points << std::endl;
-        std::cout << " Max depth : " << m_quadtree.getMaxDepth()  << std::endl;
+        // std::cout << " Max depth : " << m_quadtree.getMaxDepth()  << std::endl;
 
         glm::mat4 transform = glm::mat4(1.0f);
         glUniformMatrix4fv(ID_transform, 1, GL_FALSE, glm::value_ptr(transform));

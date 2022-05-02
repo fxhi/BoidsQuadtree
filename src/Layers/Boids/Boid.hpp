@@ -44,13 +44,13 @@ public:
 
     void set_boid_parameter(BoidsParameter const &boids_param);
 
-    void compute_dist_to_boids(std::vector<Boid> &boids);
+    void compute_dist_to_boids(std::vector<Boid*> &boids);
 
     glm::vec2 compute_cohesion_rule();
-    glm::vec2 compute_alignment_rule(std::vector<Boid> const & boids);
+    glm::vec2 compute_alignment_rule(std::vector<Boid*> const & boids);
     glm::vec2 compute_separation_rule();
 
-    void update(float const delta_t, std::vector<Boid> & boids);
+    void update(float const delta_t, std::vector<Boid*> & boids);
 
     glm::vec2 get_position() const;
     glm::vec2 get_velocity() const;
@@ -119,15 +119,15 @@ void Boid::set_boid_parameter(BoidsParameter const &boids_param) {
     m_size = boids_param.m_size;
 }
 
-void Boid::compute_dist_to_boids(std::vector<Boid> &boids) {
+void Boid::compute_dist_to_boids(std::vector<Boid*> & boids) {
     m_dist_boids.clear(); // -- clear previous vector since boids number can change
     m_dx_boids.clear(); // -- clear previous vector since boids number can change
     m_dy_boids.clear(); // -- clear previous vector since boids number can change
     for (auto & boid : boids) {
         // distance from our boid to oters our-->other
-        m_dist_boids.push_back(glm::length(boid.m_position - m_position));
-        m_dx_boids.push_back(boid.m_position.x - m_position.x);
-        m_dy_boids.push_back(boid.m_position.y - m_position.y);
+        m_dist_boids.push_back(glm::length(boid->m_position - m_position));
+        m_dx_boids.push_back(boid->m_position.x - m_position.x);
+        m_dy_boids.push_back(boid->m_position.y - m_position.y);
     }
 }
 
@@ -155,13 +155,13 @@ glm::vec2 Boid::compute_cohesion_rule() {
     // return acc; // return the computed acceleration
 }
 
-glm::vec2 Boid::compute_alignment_rule(std::vector<Boid> const & boids) {
+glm::vec2 Boid::compute_alignment_rule(std::vector<Boid*> const & boids) {
     // compute alignment_rule
     glm::vec2 velocity(0,0);
     int count = 0;
     for (auto i = 0; i < m_dist_boids.size(); i++) {
         if ( 0.0 < std::abs(m_dist_boids[i]) && std::abs(m_dist_boids[i]) < m_dist_alignment ) {
-            velocity += boids[i].m_velocity;
+            velocity += boids[i]->m_velocity;
             count += 1;
         }
     }
@@ -195,7 +195,7 @@ glm::vec2 Boid::compute_separation_rule() {
     }
 };
 
-void Boid::update(float const delta_t, std::vector<Boid> & boids) {
+void Boid::update(float const delta_t, std::vector<Boid*> & boids) {
     // Compute distance vector to each boids
     compute_dist_to_boids(boids);
     // update position and velocity of the boid
