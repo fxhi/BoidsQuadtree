@@ -35,6 +35,7 @@ public:
             m_window.update();
 
             time.updateTime();
+            time.displayFPS();
         }
     }
 

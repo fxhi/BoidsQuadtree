@@ -20,7 +20,7 @@ public:
     Scene() 
         : m_camera(new Camera),
           m_boundary(new Rectangle<>()),  // rectangle centered in (0,0), with a width and height of 2.
-          m_flock(400),
+          m_flock(400), //400 is good
           m_particles(10)
     {
         m_background.setColorRGB255(50, 54, 57);

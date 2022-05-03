@@ -29,6 +29,10 @@ public:
         
     }
 
+    void displayFPS() {
+        std::cout << "\r Elapsed Time/ Average FPS : " << getTimeStep() << " / " << getAverageFPS() << std::flush;
+    }
+
     float getTimeStep() const {
         return m_timeStep;
     }

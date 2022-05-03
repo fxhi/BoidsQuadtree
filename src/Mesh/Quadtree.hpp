@@ -78,8 +78,13 @@ public:
         m_total_points += 1;
 
         if (!m_divided) {
-            if(m_point.size() < m_max_points || m_maxDepthPossible == m_depth) {
+            // if(m_point.size() < m_max_points || m_maxDepthPossible == m_depth) {
+            if(m_point.size() < m_max_points) {
                 m_point.push_back(data);
+                return;
+            } else if (m_maxDepthPossible == m_depth){
+                m_point.push_back(data);
+                std::cerr << "WARNING::QUADTREE:: Maximum fixed depth as been reached (" << m_maxDepthPossible << "), no further nodes splitting is allowed." << std::endl;
                 return;
             }
         }
@@ -304,7 +309,7 @@ public:
 
     int m_total_points = 0; // Total number of m_point inside a node, childrens included.
 
-    int m_maxDepthPossible = 100;
+    int m_maxDepthPossible = 50;
 
 };
 
