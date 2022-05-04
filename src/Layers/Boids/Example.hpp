@@ -11,7 +11,7 @@
 #include "../../OpenGL-Core/LayerGL.hpp"
 #include "../../OpenGL-Core/shader.hpp"
 #include "../../OpenGL-Core/Time.hpp"
-#include "../../OpenGL-Core/Tools/circleGL.hpp"
+#include "../../OpenGL-Core/Tools/CircleGL.hpp"
 
 #include "../../Tools/RandomNumber.hpp"
 #include "../../Tools/Geometry/Rectangle.hpp"

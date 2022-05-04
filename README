@@ -1,7 +1,13 @@
 ### TODO
 Maintaining Aspect Ratio and Scale Independent of Window Size : maintaining-aspect-ratio-and-scale-independent-of-window-size-with-freeglut
 
+Flock 
+    - quadtree  : the deepthest node of the quadtree is by default 50. It avoid to have infinit loop when a number of point (> max number per node)
+are exactly at the same position (e.g. a initialization if all boids start in (0,0) position).
+    - quadtree query, may be not usefull, can be added as an option: if the number of neighbouring boids is greater than a certain value, only applies the behavior rules to 
+                        a small porition of the neighbouring boids. For this extract select randomly some boids in those return by the query function.
 
+N.B: (keep this project simple)
 ### References
 
 OpenGL part thank to : learnopengl.com

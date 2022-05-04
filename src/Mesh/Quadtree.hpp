@@ -84,7 +84,7 @@ public:
                 return;
             } else if (m_maxDepthPossible == m_depth){
                 m_point.push_back(data);
-                std::cerr << "WARNING::QUADTREE:: Maximum fixed depth as been reached (" << m_maxDepthPossible << "), no further nodes splitting is allowed." << std::endl;
+                // std::cerr << "WARNING::QUADTREE:: Maximum fixed depth as been reached (" << m_maxDepthPossible << "), no further nodes splitting is allowed." << std::endl;
                 return;
             }
         }

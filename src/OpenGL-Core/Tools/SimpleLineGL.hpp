@@ -42,8 +42,8 @@ private:
     unsigned int shaderProgram;
 
 private:
-    void createVAO() {
 
+    std::vector<float> getVertices() {
         glm::vec2 p1p2;
         if (m_p1.y <= m_p2.y) {
             std::swap(m_p1, m_p1);
@@ -58,22 +58,36 @@ private:
 
         float half_width = m_width/2.0f;
 
-        float circleVertices[4*3] = {
+        std::vector<float> circleVertices {
             m_p1.x-sin_theta*half_width, m_p1.y+cos_theta*half_width, 0.0f,
             m_p2.x-sin_theta*half_width, m_p2.y+cos_theta*half_width, 0.0f,
             m_p2.x+sin_theta*half_width, m_p2.y-cos_theta*half_width, 0.0f,
             m_p1.x+sin_theta*half_width, m_p1.y-cos_theta*half_width, 0.0f
         };
-        // }
-        // if glEnable(GL_CULL_FACE); 
-        unsigned int circleIndices[4*3] = {
+
+        return circleVertices;
+    }
+
+    std::vector<unsigned int> getIndices() {
+        // unsigned int* circleIndices;
+        // circleIndices =  new unsigned int[3*2]{
+        //         0, 2, 1,
+        //         0, 3, 2
+        // };
+    
+        // return circleIndices;
+        std::vector<unsigned int> circleIndices {
                 0, 2, 1,
                 0, 3, 2
         };
-        // unsigned int circleIndices[] = {
-        //     0, 1, 2,
-        //     0, 2, 3
-        // };
+    
+        return circleIndices;
+    }
+
+    void createVAO() {
+
+        std::vector<float> p_circleVertices = getVertices();
+        std::vector<unsigned int> p_circleIndices = getIndices();
 
         glGenVertexArrays(1, &VAO);
         glGenBuffers(1, &VBO);
@@ -82,24 +96,17 @@ private:
         glBindVertexArray(VAO);
 
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(circleVertices), circleVertices, GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, p_circleVertices.size() * sizeof(float), &p_circleVertices[0], GL_STATIC_DRAW);
 
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(circleIndices), circleIndices, GL_STATIC_DRAW);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, p_circleIndices.size() * sizeof(unsigned int), &p_circleIndices[0], GL_STATIC_DRAW);
 
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
         glEnableVertexAttribArray(0);
 
-        // note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
         glBindBuffer(GL_ARRAY_BUFFER, 0); 
 
-        // remember: do NOT unbind the EBO while a VAO is active as the bound element buffer object IS stored in the VAO; keep the EBO bound.
-        //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-        // You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens. Modifying other
-        // VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
         glBindVertexArray(0); 
-        // return VAO;
     }
 };
 

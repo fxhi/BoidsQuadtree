@@ -30,7 +30,7 @@ public:
     }
 
     void displayFPS() {
-        std::cout << "\r Elapsed Time/ Average FPS : " << getTimeStep() << " / " << getAverageFPS() << std::flush;
+        std::cout << "\r Elapsed Time/ Average FPS : " << getAverageTimeStep() << " / " << getAverageFPS()  << "  "<< std::flush; // the last space is need for visibility, issue (on vs code at least) when flushing
     }
 
     float getTimeStep() const {
