@@ -116,7 +116,7 @@ public:
         for(auto const & line : linesToDraw) {
             // TODO : not good need to create a line object everytime !
             // SimpleLineGL lineGL(line.x1, line.y1, line.x1, line.y1, 0.01);
-            SimpleLineGL lineGL(line.x2, line.y2, line.x1, line.y1, 0.01);
+            SimpleLineGL lineGL(line.x2, line.y2, line.x1, line.y1, 0.02);
             // SimpleLineGL lineGL(line.x1, line.y1, line.x2, line.y2, 0.1);
             // std::cout << " " << line.x1 << " " << line.y1 << " " << line.x2 << " " << line.y2 << std::endl;
             glBindVertexArray(lineGL.VAO);

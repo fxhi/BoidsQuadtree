@@ -28,7 +28,7 @@ struct Data {
 };
 public:
     Quadtree() = default;
-    Quadtree(Rectangle<T_rect> boundary, int max_points=4, int depth=0) :
+    Quadtree(Rectangle<T_rect> boundary, int max_points=10, int depth=0) :
         m_boundary(boundary), m_max_points(max_points), m_depth(depth){
             // std::cout << "Depth: " << depth << std::endl;
 

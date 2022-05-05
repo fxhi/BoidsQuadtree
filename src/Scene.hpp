@@ -13,6 +13,8 @@
 #include "OpenGL-Core/Tools/CircleGL.hpp"
 #include "OpenGL-Core/Tools/SimpleLineGL.hpp"
 
+#include "OpenGL-Core/WindowGL.hpp"
+
 //use share_ptr for camera and boundary ?
 
 class Scene : public SceneGL {
@@ -25,8 +27,8 @@ public:
     {
         m_background.setColorRGB255(50, 54, 57);
 
-        m_boundary->resizeLeftRightBottomTop(-2.0f, 2.0f, -2.0f, 2.0f);
-        // m_boundary->resizeLeftRightBottomTop(-10.0f, 10.0f, -10.0f, 10.0f);
+        // m_boundary->resizeLeftRightBottomTop(-2.0f, 2.0f, -2.0f, 2.0f);
+        m_boundary->resizeLeftRightBottomTop(-5.0f, 5.0f, -5.0f, 5.0f);
 
         m_camera->setViewMatrix(getOrthographicProjectionMatrix(
             m_boundary->getLeft()-0.1, m_boundary->getRight()+0.1,
@@ -49,19 +51,14 @@ public:
 
     void update(const Time& m_time) override {
         m_background.render();
+
         m_flock.update(m_time);
         m_flock.render();
 
         // m_particles.update(m_time);
         // m_particles.render();
 
-        // glUseProgram(0);
-        // SimpleLineGL line(1.0f, 1.0f, 1.0f, -1.0f, 0.01);
-        // // SimpleLineGL line(1.0f, -1.0f, 1.0f, 1.0f, 0.01);
-        // glBindVertexArray(line.VAO);
-        // line.draw();
     }
-
 
 private:
     BackgroundLayer m_background;

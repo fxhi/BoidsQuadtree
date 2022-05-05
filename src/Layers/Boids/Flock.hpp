@@ -57,103 +57,114 @@ class Flock : public LayerGL {
 
         virtual void render() override{
             bool useInstancingCircle = true;
+
+            bool renderFlock = true;
             
-            if (useInstancingCircle) {
-                // Instancing
-                //-----------
-                m_shaderInstancing.use();
+            if(renderFlock) {
 
-                // Get and set view matrix
-                glm::mat4 viewMatrix = m_camera->getViewMatrix();
-                unsigned int ID_viewMatrixInstancing = glGetUniformLocation(m_shaderInstancing.ID, "u_view");
-                glUniformMatrix4fv(ID_viewMatrixInstancing, 1, GL_FALSE, glm::value_ptr(viewMatrix));
+                if (useInstancingCircle) {
+                    // Instancing
+                    //-----------
+                    m_shaderInstancing.use();
 
-                glm::mat4* modelMatrix = new glm::mat4[m_boids.size()];
-                int index = 0;
+                    // Get and set view matrix
+                    glm::mat4 viewMatrix = m_camera->getViewMatrix();
+                    unsigned int ID_viewMatrixInstancing = glGetUniformLocation(m_shaderInstancing.ID, "u_view");
+                    glUniformMatrix4fv(ID_viewMatrixInstancing, 1, GL_FALSE, glm::value_ptr(viewMatrix));
 
-                for(auto const & boid : m_boids) {
-                    glm::mat4 transform = glm::mat4(1.0f);
-                    transform = glm::translate(transform, glm::vec3(boid->m_position.x, boid->m_position.y, 0.0f));
-                    transform = glm::scale(transform, glm::vec3(boid->m_size, boid->m_size, boid->m_size));
+                    glm::mat4* modelMatrix = new glm::mat4[m_boids.size()];
+                    int index = 0;
 
-                    modelMatrix[index] = transform;
-                    index++;
+                    for(auto const & boid : m_boids) {
+                        glm::mat4 transform = glm::mat4(1.0f);
+                        transform = glm::translate(transform, glm::vec3(boid->m_position.x, boid->m_position.y, 0.0f));
+                        transform = glm::scale(transform, glm::vec3(boid->m_size, boid->m_size, boid->m_size));
+
+                        modelMatrix[index] = transform;
+                        index++;
+                    }
+
+                    m_instancedCircleGL.setNumberInstance(m_boids.size());
+                    m_instancedCircleGL.setModelMatrices(modelMatrix);
+                    m_instancedCircleGL.draw();
+                } else {
+                    m_shader.use();
+                    // Get and set view matrix
+                    glm::mat4 viewMatrix = m_camera->getViewMatrix();
+                    unsigned int ID_viewMatrix = glGetUniformLocation(m_shader.ID, "u_view");
+                    glUniformMatrix4fv(ID_viewMatrix, 1, GL_FALSE, glm::value_ptr(viewMatrix));
+                    // Get ID matrix for model matrix
+                    unsigned int ID_transform = glGetUniformLocation(m_shader.ID, "transform");
+
+                    glBindVertexArray(m_circleGL.VAO);
+                    for(auto const & boid : m_boids) {
+                        glm::mat4 transform = glm::mat4(1.0f);
+                        transform = glm::translate(transform, glm::vec3(boid->m_position.x, boid->m_position.y, 0.0f));
+                        transform = glm::scale(transform, glm::vec3(boid->m_size, boid->m_size, boid->m_size));
+
+                        glUniformMatrix4fv(ID_transform, 1, GL_FALSE, glm::value_ptr(transform));
+
+                        m_circleGL.draw();
+                    }
+
                 }
-
-                m_instancedCircleGL.setNumberInstance(m_boids.size());
-                m_instancedCircleGL.setModelMatrices(modelMatrix);
-                m_instancedCircleGL.draw();
-            } else {
-                m_shader.use();
-                // Get and set view matrix
-                glm::mat4 viewMatrix = m_camera->getViewMatrix();
-                unsigned int ID_viewMatrix = glGetUniformLocation(m_shader.ID, "u_view");
-                glUniformMatrix4fv(ID_viewMatrix, 1, GL_FALSE, glm::value_ptr(viewMatrix));
-                // Get ID matrix for model matrix
-                unsigned int ID_transform = glGetUniformLocation(m_shader.ID, "transform");
-
-                glBindVertexArray(m_circleGL.VAO);
-                for(auto const & boid : m_boids) {
-                    glm::mat4 transform = glm::mat4(1.0f);
-                    transform = glm::translate(transform, glm::vec3(boid->m_position.x, boid->m_position.y, 0.0f));
-                    transform = glm::scale(transform, glm::vec3(boid->m_size, boid->m_size, boid->m_size));
-
-                    glUniformMatrix4fv(ID_transform, 1, GL_FALSE, glm::value_ptr(transform));
-
-                    m_circleGL.draw();
-                }
-
             }
 
+            bool renderMesh = true;
             bool useMultipleSimpleLineGL = false;
 
             // Update the quadtree
             m_quadtree.clear();
             fillQuadtree();
-            if (useMultipleSimpleLineGL) {
-                m_shader.use();
-                // Get and set view matrix
-                glm::mat4 viewMatrix = m_camera->getViewMatrix();
-                unsigned int ID_viewMatrix = glGetUniformLocation(m_shader.ID, "u_view");
-                glUniformMatrix4fv(ID_viewMatrix, 1, GL_FALSE, glm::value_ptr(viewMatrix));
 
-                glm::mat4 transform = glm::mat4(1.0f);
-                unsigned int ID_transform = glGetUniformLocation(m_shader.ID, "transform");
-                glUniformMatrix4fv(ID_transform, 1, GL_FALSE, glm::value_ptr(transform));
+            if(renderMesh) {
 
-                // Render the quadtree
-                std::vector<Line<float>> linesToDraw = m_quadtree.getLineToDrawShape();
-                std::vector<float> linesPositions;
-                for(auto const & line : linesToDraw) {
-                    std::vector<float> position = {line.x2, line.y2, line.x1, line.y1};
-                    linesPositions.insert(linesPositions.end(), position.begin(), position.end());
-                }
-                MultipleSimpleLineGL linesGL(linesPositions, 0.01);
-                glBindVertexArray(linesGL.VAO);
-                linesGL.draw();
-            } else {
-                m_shader.use();
-                // Get and set view matrix
-                glm::mat4 viewMatrix = m_camera->getViewMatrix();
-                unsigned int ID_viewMatrix = glGetUniformLocation(m_shader.ID, "u_view");
-                glUniformMatrix4fv(ID_viewMatrix, 1, GL_FALSE, glm::value_ptr(viewMatrix));
+                float lineWidth = 0.02;
+                if (useMultipleSimpleLineGL) {
+                    m_shader.use();
+                    // Get and set view matrix
+                    glm::mat4 viewMatrix = m_camera->getViewMatrix();
+                    unsigned int ID_viewMatrix = glGetUniformLocation(m_shader.ID, "u_view");
+                    glUniformMatrix4fv(ID_viewMatrix, 1, GL_FALSE, glm::value_ptr(viewMatrix));
 
-                glm::mat4 transform = glm::mat4(1.0f);
-                unsigned int ID_transform = glGetUniformLocation(m_shader.ID, "transform");
-                glUniformMatrix4fv(ID_transform, 1, GL_FALSE, glm::value_ptr(transform));
+                    glm::mat4 transform = glm::mat4(1.0f);
+                    unsigned int ID_transform = glGetUniformLocation(m_shader.ID, "transform");
+                    glUniformMatrix4fv(ID_transform, 1, GL_FALSE, glm::value_ptr(transform));
 
-                // Render the quadress
-                std::vector<Line<float>> linesToDraw = m_quadtree.getLineToDrawShape();
-                // std::cout << "Line to draw size : " << linesToDraw.size() << std::endl;
-                // std::cout << " Total number of point : " << m_quadtree.m_total_points << std::endl;
-                // std::cout << " Max depth : " << m_quadtree.getMaxDepth()  << std::endl;
-                for(auto const & line : linesToDraw) {
-                    // TODO : not good need to create a line object everytime !
-                    SimpleLineGL lineGL(line.x2, line.y2, line.x1, line.y1, 0.01);
-                    // SimpleLineGL lineGL(line.x2, line.y2, line.x1, line.y1, 0.05);
-                    // std::cout << " " << line.x1 << " " << line.y1 << " " << line.x2 << " " << line.y2 << std::endl;
-                    glBindVertexArray(lineGL.VAO);
-                    lineGL.draw();
+                    // Render the quadtree
+                    std::vector<Line<float>> linesToDraw = m_quadtree.getLineToDrawShape();
+                    std::vector<float> linesPositions;
+                    for(auto const & line : linesToDraw) {
+                        std::vector<float> position = {line.x2, line.y2, line.x1, line.y1};
+                        linesPositions.insert(linesPositions.end(), position.begin(), position.end());
+                    }
+                    MultipleSimpleLineGL linesGL(linesPositions, lineWidth);
+                    glBindVertexArray(linesGL.VAO);
+                    linesGL.draw();
+                } else {
+                    m_shader.use();
+                    // Get and set view matrix
+                    glm::mat4 viewMatrix = m_camera->getViewMatrix();
+                    unsigned int ID_viewMatrix = glGetUniformLocation(m_shader.ID, "u_view");
+                    glUniformMatrix4fv(ID_viewMatrix, 1, GL_FALSE, glm::value_ptr(viewMatrix));
+
+                    glm::mat4 transform = glm::mat4(1.0f);
+                    unsigned int ID_transform = glGetUniformLocation(m_shader.ID, "transform");
+                    glUniformMatrix4fv(ID_transform, 1, GL_FALSE, glm::value_ptr(transform));
+
+                    // Render the quadress
+                    std::vector<Line<float>> linesToDraw = m_quadtree.getLineToDrawShape();
+                    // std::cout << "Line to draw size : " << linesToDraw.size() << std::endl;
+                    // std::cout << " Total number of point : " << m_quadtree.m_total_points << std::endl;
+                    // std::cout << " Max depth : " << m_quadtree.getMaxDepth()  << std::endl;
+                    for(auto const & line : linesToDraw) {
+                        // TODO : not good need to create a line object everytime !
+                        SimpleLineGL lineGL(line.x2, line.y2, line.x1, line.y1, lineWidth);
+                        // SimpleLineGL lineGL(line.x2, line.y2, line.x1, line.y1, 0.05);
+                        // std::cout << " " << line.x1 << " " << line.y1 << " " << line.x2 << " " << line.y2 << std::endl;
+                        glBindVertexArray(lineGL.VAO);
+                        lineGL.draw();
+                    }
                 }
             }
 

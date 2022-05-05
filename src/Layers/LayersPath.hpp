@@ -5,7 +5,6 @@
 #include "Background.hpp"
 #include "Camera.hpp"
 
-
 #include "ParticleSystem/Particle.hpp"
 
 #endif
