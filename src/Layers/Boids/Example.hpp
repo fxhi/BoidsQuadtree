@@ -9,7 +9,7 @@
 // #include <glm/gtc/type_ptr.hpp>
 
 // #include "../../OpenGL-Core/LayerGL.hpp"
-// #include "../../OpenGL-Core/shader.hpp"
+// #include "../../OpenGL-Core/Shader.hpp"
 // #include "../../OpenGL-Core/Time.hpp"
 // #include "../../OpenGL-Core/Tools/CircleGL.hpp"
 

@@ -7,9 +7,7 @@
 class Application : public ApplicationGL
 {
 public:
-    Application() {
-        setScene(new Scene);
-    }
+    Application();
 };
 
 #endif

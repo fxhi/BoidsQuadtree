@@ -13,55 +13,22 @@
 
 class ApplicationGL {
 public:
-    ApplicationGL() {
-        init(); // Can't do this in "run" function, otherwise get a segmentation fault.
-    }
-    ApplicationGL(int width, int height, std::string name) : m_window(new WindowGL(width, height, name)) {
-        assert(width > 0 && height > 0 && "ERROR::WINDOW:: width and height of the window need to be > 0.");
-        ApplicationGL();
-    };
+    ApplicationGL();
 
-    void run() {
-        update();
-        terminate();
-    }
+    ApplicationGL(int width, int height, std::string name);
 
-    void update() {
-        while (!glfwWindowShouldClose(static_cast<GLFWwindow*>(m_window->get())))
-        {
-            m_window->processInput();
+    void run();
 
-            m_scene->update(time);
-            m_Imgui->update();
+    void update();
 
-            m_window->update();
+    WindowGL* getWindow();
 
-            time.updateTime();
-            time.displayFPS();
-        }
-    }
-
-    WindowGL* getWindow() {
-        return m_window;
-    }
-
-    void setScene(SceneGL* scene) {
-        m_scene = scene;
-    }
+    void setScene(SceneGL* scene);
 
 private:
-    void init() {
-        m_window = new WindowGL();
-        m_window->init();
+    void init();
 
-        m_Imgui = new ImGuiGL();
-        m_Imgui->setWindow(m_window);
-        m_Imgui->init();
-    }
-
-    void terminate() {
-        glfwTerminate();
-    }
+    void terminate();
 
 private:
     WindowGL* m_window = nullptr;

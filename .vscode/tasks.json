@@ -8,8 +8,15 @@
             "args": [
                 "-g",
                 "-std=c++17",
-                // "${workspaceFolder}/main.cpp",
-                "${workspaceFolder}//**.cpp",
+                "${workspaceFolder}\\**.cpp",
+                "${workspaceFolder}\\src\\**.cpp",
+                "${workspaceFolder}\\src\\Layers\\**.cpp",
+                "${workspaceFolder}\\src\\Layers\\Boids\\**.cpp",
+                "${workspaceFolder}\\src\\Layers\\ParticleSystem\\**.cpp",
+
+                "${workspaceFolder}\\src\\OpenGL-Core\\**.cpp",
+                "${workspaceFolder}\\src\\OpenGL-Core\\ImGuiGL\\**.cpp",
+                "${workspaceFolder}\\src\\OpenGL-Core\\Tools\\**.cpp",
                 "${workspaceFolder}/external/glad/src/glad.c",
                 "-I${workspaceFolder}/external/glad/include",
                 "-fdiagnostics-color=always",
