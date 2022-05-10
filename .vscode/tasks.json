@@ -10,7 +10,7 @@
                 "-std=c++17",
                 "-fdiagnostics-color=always",
                 "-fopenmp",
-                "-Wall",
+                // "-Wall",
                 "-Wno-reorder",
                 "${workspaceFolder}\\**.cpp",
                 "${workspaceFolder}\\src\\**.cpp",
