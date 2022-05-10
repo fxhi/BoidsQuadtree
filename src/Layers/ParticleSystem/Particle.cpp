@@ -24,11 +24,11 @@
 // Public
 // ------
 
-ParticleLayer::ParticleLayer(unsigned int m_numberParticles, int numberEdges)
-     : m_shader("src/shader/vertexShader.glsl", "src/shader/fragmentShader.glsl"), m_numberEdges(numberEdges), m_circleGL(m_numberEdges) {
+ParticleLayer::ParticleLayer(unsigned int numberParticles, int numberEdges)
+     : m_shader("src/shader/vertexShader.glsl", "src/shader/fragmentShader.glsl"), m_numberEdges(numberEdges), m_circleGL(m_numberEdges), m_numberParticles(numberParticles) {
     
     srand(time(NULL));
-    for (auto i=0; i<m_numberParticles; i++) {
+    for (size_t i=0; i<m_numberParticles; i++) {
         float x = 0.0;
         float y = 0.0;
         // float x = randomFloat(-1.0, 1.0);

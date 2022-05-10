@@ -56,7 +56,7 @@ void InstancedCircleGL::createVAO() {
     circleVertices[2] = 0.0f;
 
     // Loop over the circle, get the the vertices position
-    for (auto i=0; i<circleEdgeNumber+1; i++) {
+    for (unsigned int i=0; i<circleEdgeNumber+1; i++) {
         circleVertices[0+(i+1)*3] = std::cos(angle*i);
         circleVertices[1+(i+1)*3] = std::sin(angle*i);
         circleVertices[2+(i+1)*3] = 0.0f;
@@ -64,7 +64,7 @@ void InstancedCircleGL::createVAO() {
 
     // Get the associated indices
     unsigned int circleIndices[circleEdgeNumber*3];
-    for (auto i=0; i<circleEdgeNumber; i++){
+    for (unsigned int i=0; i<circleEdgeNumber; i++){
         circleIndices[0+i*3] = 0;
         circleIndices[1+i*3] = 1+i;
         circleIndices[2+i*3] = 2+i;

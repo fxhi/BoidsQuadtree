@@ -60,7 +60,7 @@ private:
     void applyBoundaryCondition();
 
 private:
-    unsigned int m_numberParticles;
+    size_t m_numberParticles;
     std::vector<Particle> vec_particles;
     Rectangle<>* m_boundary = nullptr;
 

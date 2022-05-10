@@ -300,16 +300,16 @@ public:
 
     std::vector<Data> m_point;
     Rectangle<T_rect> m_boundary;
-    int m_max_points = 4; // Maximal number of points that a node can have.
-    int m_depth = 0; // Depth of the quadtree, first node is 0.
+    size_t m_max_points = 4; // Maximal number of points that a node can have.
+    size_t m_depth = 0; // Depth of the quadtree, first node is 0.
     bool m_divided = false; // Is the node is divided, is the node had childrens ?
     //right-top, top-left, left-bottom, bottom-right
     // Quadtree<T>* children[4] = {nullptr, nullptr, nullptr, nullptr}; 
     std::unique_ptr<Quadtree<T>> children[4];
 
-    int m_total_points = 0; // Total number of m_point inside a node, childrens included.
+    size_t m_total_points = 0; // Total number of m_point inside a node, childrens included.
 
-    int m_maxDepthPossible = 50;
+    size_t m_maxDepthPossible = 50;
 
 };
 

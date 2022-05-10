@@ -76,13 +76,13 @@ void MultipleSimpleLineGL::createVAO() {
     std::vector<float> linesVertices;
     std::vector<int> linesIndices;
 
-    for(auto i=0; i<m_linesPoints.size(); i=i+4) {
+    for(size_t i=0; i<m_linesPoints.size(); i=i+4) {
         std::vector<float> vertices = getVertices(m_linesPoints[i], m_linesPoints[i+1], m_linesPoints[i+2], m_linesPoints[i+3]);
         linesVertices.insert(linesVertices.end(), vertices.begin(), vertices.end());
         
         std::vector<int> indices {
-            0+i, 2+i, 1+i,
-            0+i, 3+i, 2+i
+            0+(int)i, 2+(int)i, 1+(int)i,
+            0+(int)i, 3+(int)i, 2+(int)i
         };
         // std::vector<unsigned int> indices = getIndices(i*4); // 4 indices
         linesIndices.insert(linesIndices.end(), indices.begin(), indices.end());

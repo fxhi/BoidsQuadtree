@@ -66,7 +66,7 @@ glm::vec2 Boid::compute_cohesion_rule() {
     // Move the current boid toward the barycenter of nearby boids
     glm::vec2 barycenter(0,0);
     int count = 0;
-    for (auto i=0; i < m_dist_boids.size(); i++) {
+    for (size_t i=0; i < m_dist_boids.size(); i++) {
         if ( 0.0 < std::abs(m_dist_boids[i]) && std::abs(m_dist_boids[i]) < m_dist_cohesion) {
             barycenter.x +=  m_dx_boids[i];
             barycenter.y += m_dy_boids[i];
@@ -89,7 +89,7 @@ glm::vec2 Boid::compute_alignment_rule(std::vector<Boid*> const & boids) {
     // compute alignment_rule
     glm::vec2 velocity(0,0);
     int count = 0;
-    for (auto i = 0; i < m_dist_boids.size(); i++) {
+    for (size_t i = 0; i < m_dist_boids.size(); i++) {
         if ( 0.0 < std::abs(m_dist_boids[i]) && std::abs(m_dist_boids[i]) < m_dist_alignment ) {
             velocity += boids[i]->m_velocity;
             count += 1;
@@ -108,7 +108,7 @@ glm::vec2 Boid::compute_alignment_rule(std::vector<Boid*> const & boids) {
 glm::vec2 Boid::compute_separation_rule() {
     // compute separation rule
     glm::vec2 dir(0,0);
-    for (auto i = 0; i < m_dist_boids.size(); i++){
+    for (size_t i = 0; i < m_dist_boids.size(); i++){
         if (0.0 < std::abs(m_dist_boids[i])  && std::abs(m_dist_boids[i]) < m_dist_separation) {
             // dir += -glm::vec2(m_dx_boids[i], m_dy_boids[i]);
             // std::cout << static_cast<float>(std::pow(m_dist_boids[i],2)) << std::endl;

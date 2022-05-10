@@ -7,7 +7,7 @@ struct Line {
         // Nothing
     }
     
-    T x1, x2, y1, y2;
+    T x1, y1, x2, y2;
 };
 
 #endif
