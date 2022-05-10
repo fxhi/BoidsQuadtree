@@ -4,6 +4,7 @@
 #define _USE_MATH_DEFINES
 
 #include <vector>
+#include <memory>
 
 #include <exception>
 
@@ -176,7 +177,7 @@ class Flock : public LayerGL {
             m_boundary = boundary;
         }
 
-        void setCamera(Camera* camera) {
+        void setCamera(std::shared_ptr<Camera> camera) {
             m_camera = camera;
         }
             
@@ -215,7 +216,7 @@ class Flock : public LayerGL {
         Shader m_shaderInstancing;
         CircleGL m_circleGL;
         InstancedCircleGL m_instancedCircleGL;
-        Camera* m_camera = nullptr;
+        std::shared_ptr<Camera> m_camera;
 
         Quadtree<Boid*> m_quadtree;
 

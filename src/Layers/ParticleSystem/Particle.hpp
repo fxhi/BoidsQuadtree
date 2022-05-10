@@ -5,6 +5,7 @@
 
 #include <cmath>
 #include <vector>
+#include <memory>
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -53,7 +54,7 @@ public:
 
     void setBoundary(Rectangle<>* boundary);
 
-    void setCamera(Camera* camera);
+    void setCamera(std::shared_ptr<Camera> camera);
 
 private:
 
@@ -68,7 +69,7 @@ private:
     Shader m_shader;
     int m_numberEdges;
     CircleGL m_circleGL;
-    Camera* m_camera = nullptr;
+    std::shared_ptr<Camera> m_camera;
 
     //Mesh
     Quadtree<Particle*> m_quadtree;

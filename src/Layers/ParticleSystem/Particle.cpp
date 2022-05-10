@@ -2,6 +2,7 @@
 
 #include <cmath>
 #include <vector>
+#include <memory>
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -116,7 +117,7 @@ void ParticleLayer::setBoundary(Rectangle<>* boundary) {
     m_boundary = boundary;
 }
 
-void ParticleLayer::setCamera(Camera* camera) {
+void ParticleLayer::setCamera(std::shared_ptr<Camera> camera) {
     m_camera = camera;
 }
 

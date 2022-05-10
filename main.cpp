@@ -1,6 +1,9 @@
 #define _USE_MATH_DEFINES
 
+#include "memory"
+
 #include "src/Application.hpp"
+
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow *window);
@@ -11,8 +14,8 @@ const unsigned int SCR_HEIGHT = 800;
 
 int main()
 {
-    Application app;
-    app.run();
+    std::unique_ptr<Application> app = std::make_unique<Application>();
+    app->run();
 
     return 0;
 }

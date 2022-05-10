@@ -2,6 +2,7 @@
 #define SCENE_HPP
 
 #include <vector>
+#include <memory>
 
 #include "OpenGL-Core/SceneGL.hpp"
 #include "OpenGL-Core/LayerGL.hpp"
@@ -29,7 +30,7 @@ private:
 
     Time m_time;
 
-    Camera* m_camera;
+    std::shared_ptr<Camera> m_camera;
     Rectangle<>* m_boundary;
 
     ParticleLayer m_particles;
