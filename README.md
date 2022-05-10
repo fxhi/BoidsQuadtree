@@ -10,7 +10,7 @@ The birds' behaviour is governed by rules based on the behaviour of neighboring 
 
 ## Information
 
-This application as only been tested on Windows 10.
+This application as only been tested on Windows 10. The FPS was pretty low, one of the reason is I only have an integrated graphics card.
 
 ## References
 
