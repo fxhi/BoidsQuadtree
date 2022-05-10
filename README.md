@@ -1,31 +1,26 @@
-### TODO
-Maintaining Aspect Ratio and Scale Independent of Window Size : maintaining-aspect-ratio-and-scale-independent-of-window-size-with-freeglut
+# BoidsQuadtree
 
-Flock 
-    - quadtree  : the deepthest node of the quadtree is by default 50. It avoid to have infinit loop when a number of point (> max number per node)
-are exactly at the same position (e.g. a initialization if all boids start in (0,0) position).
-    - quadtree query, may be not usefull, can be added as an option: if the number of neighbouring boids is greater than a certain value, only applies the behavior rules to 
-                        a small porition of the neighbouring boids. For this extract select randomly some boids in those return by the query function.
+BoidsQuadtree is a small apllication written in C++ with OpenGL and ImGUI. The idea relies on the Boids algorithm developed by Craig Renolds wich simulates the flocking behavious of birds.
 
-issue with M_PI and cmath : https://stackoverflow.com/questions/6563810/m-pi-works-with-math-h-but-not-with-cmath-in-visual-studio
+The birds' behaviour is governed by rules based on the behaviour of neighboring birds. In order to only check the neighboring birds and not all the birds in the simulation, a quadtree structure is implemented for more efficiency. 
 
- - Math constant : issue with #define _USE_MATH_DEFINES to get M_PI, need to put this macro definition in every header that include RandomNumber.hpp. Need to create my own math declaration constants.
+<p align="center">
+    <img width="600" src="https://github.com/fxhi/BoidsQuadtree-CPP/blob/master/BoidsQuadtree.png" alt="Example">
+</p>
 
-N.B: (keep this project simple)
+## Information
 
+This application as only been tested on Windows 10.
 
+## References
 
-TODO:
-Imgui:
-Add multi viewports : https://github.com/ocornut/imgui/wiki/Multi-Viewports
+https://learnopengl.com/
 
-### References
+https://www.labri.fr/perso/nrougier/from-python-to-numpy/
 
-OpenGL part thank to : learnopengl.com
+http://www.kfish.org/boids/pseudocode.html
 
-https://stackoverflow.com/questions/22735111/
+http://www.red3d.com/cwr/
 
-### Usefull resources if octree
-https://stackoverflow.com/questions/32412107/quadtree-find-neighbor
-https://www.reddit.com/r/VoxelGameDev/comments/ontjdf/how_is_sdf_stored_in_a_octree/
+https://scipython.com/blog/quadtrees-2-implementation-in-python/
 
