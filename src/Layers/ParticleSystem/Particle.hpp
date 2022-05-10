@@ -15,9 +15,10 @@
 #include "../../OpenGL-Core/Shader.hpp"
 #include "../../OpenGL-Core/Time.hpp"
 #include "../../OpenGL-Core/Tools/CircleGL.hpp"
-
-
+#include "../../OpenGL-Core/Tools/InstancedCircleGL.hpp"
 #include "../../OpenGL-Core/Tools/SimpleLineGL.hpp"
+#include "../../OpenGL-Core/Tools/MultipleSimpleLineGL.hpp"
+
 #include "../../Mesh/Quadtree.hpp"
 
 #include "../../Tools/RandomNumber.hpp"
@@ -33,7 +34,7 @@ struct Particle {
 
     glm::vec3 position;
     glm::vec3 velocity;
-    float size;
+    float size = 0.05;
 };
 
 class ParticleLayer : public LayerGL {
@@ -67,8 +68,10 @@ private:
 
     // rendering
     Shader m_shader;
+    Shader m_shaderInstancing;
     int m_numberEdges;
     CircleGL m_circleGL;
+    InstancedCircleGL m_instancedCircleGL;
     std::shared_ptr<Camera> m_camera;
 
     //Mesh
