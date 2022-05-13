@@ -11,9 +11,11 @@
 
 Boid::Boid() {
 
-    m_position = glm::vec2(0,0);
-
+    // m_position = glm::vec2(0,0);
     double angle = randomAngle();
+    m_position = glm::vec2(std::cos(angle)*randomFloat(), std::sin(angle)*randomFloat());
+
+    angle = randomAngle();
     m_velocity = glm::vec2(std::cos(angle), -std::sin(angle));
 
     // m_max_velocity = 1.0;

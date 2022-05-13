@@ -19,7 +19,7 @@
 Scene::Scene() 
     : m_camera(std::make_shared<Camera>()),
         m_boundary(new Rectangle<>()),  // rectangle centered in (0,0), with a width and height of 2.
-        m_flock(10000), //400 is good
+        m_flock(1000), //400 is good
         m_particles(10)
 {
     m_background.setColorRGB255(50, 54, 57);
