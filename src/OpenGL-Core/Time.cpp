@@ -12,6 +12,7 @@
 
 Time::Time() {
     float currentTime = (float)glfwGetTime();
+    m_timeStepFrame = 1.0f/120.0f; // Start like if it was running at 120FPS 
     m_timeStep = 1.0f/120.0f; // Start like if it was running at 120FPS 
     m_lastTime = currentTime;
     m_averageTimeStep = 1.0f/120.0f;
@@ -21,14 +22,20 @@ Time::Time() {
 
 void Time::updateTime() {
     float currentTime = (float)glfwGetTime(); // return value in secon
-    m_timeStep = currentTime - m_lastTime;
+    m_timeStepFrame = currentTime - m_lastTime;
     m_lastTime = currentTime;
 
     m_numberFrame++;
-    if ( currentTime - m_lastRecordTime >= 1.0f) {
-        m_averageTimeStep = 1.0f/m_numberFrame;
+    if ( currentTime - m_lastRecordTime >= 10.0f) {
+        m_averageTimeStep = 10.0f/(float)m_numberFrame;
         m_lastRecordTime = currentTime;
         m_numberFrame = 0;
+    }
+
+    if(m_timeStepFrame < m_maxTimeStep) {
+        m_timeStep = m_timeStepFrame;
+    } else {
+        m_timeStep = m_maxTimeStep;
     }
     
 }
@@ -43,12 +50,16 @@ float Time::getTimeStep() const {
     return m_timeStep;
 }
 
+float Time::getTimeStepFrame() const {
+    return m_timeStepFrame;
+}
+
 float Time::getAverageTimeStep() const {
     return m_averageTimeStep;
 }
 
 float Time::getInstantFPS() const {
-    return 1.0f/getTimeStep();
+    return 1.0f/getTimeStepFrame();
 }
 
 float Time::getAverageFPS() const {
